@@ -4,11 +4,11 @@ const hbs = require('hbs');
 const fs = require('fs');
 const os = require('os');
 
+const port = process.env.PORT || 3000; 
 var app = express();
 
 hbs.registerPartials(__dirname + '/views/partials') //sets the partials directory
 app.set('view engine', 'hbs'); // assign handlebars as the view engine
-app.use(express.static(__dirname + '/public')); //sets the public directory for html files
 
 app.use((req, res, next) => {
     var now = new Date().toString();
@@ -22,6 +22,12 @@ app.use((req, res, next) => {
     });
     next();
 });
+
+// app.use((req, res, next) => {
+//     res.render('maintenance.hbs');
+// });
+
+app.use(express.static(__dirname + '/public')); //sets the public directory for html files
 
 // return the current year for use in pages
 hbs.registerHelper('getCurrentYear', () => {
@@ -53,6 +59,6 @@ app.get('/bad', (req, res) => {
     });
 });
 
-app.listen(3000, () => {
-    console.log('Server is up on port 3000');
+app.listen(port, () => {
+    console.log(`Server is up on port ${port}`);
 });
